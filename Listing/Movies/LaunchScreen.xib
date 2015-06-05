@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="DJB A Bit of Flaire.ttf">
+            <string>DJBABitofFlaire</string>
+        </mutableArray>
+        <mutableArray key="Tall Films Expanded.ttf">
+            <string>TallFilmsExpanded</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@avikantz" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AqH-nW-65R">
+                    <rect key="frame" x="227" y="256" width="146" height="48"/>
+                    <fontDescription key="fontDescription" name="DJBABitofFlaire" family="DJB A Bit of Flaire" pointSize="30"/>
+                    <color key="textColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LIST OF MEDIA THAT I OWN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WuD-ec-cfJ">
+                    <rect key="frame" x="142" y="312" width="316" height="51"/>
+                    <fontDescription key="fontDescription" name="TallFilmsExpanded" family="Tall Films Expanded" pointSize="50"/>
+                    <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+            <constraints>
+                <constraint firstItem="AqH-nW-65R" firstAttribute="centerX" secondItem="WuD-ec-cfJ" secondAttribute="centerX" id="MT6-pM-K26"/>
+                <constraint firstAttribute="centerX" secondItem="AqH-nW-65R" secondAttribute="centerX" id="R4j-X8-m4q"/>
+                <constraint firstItem="WuD-ec-cfJ" firstAttribute="top" secondItem="AqH-nW-65R" secondAttribute="bottom" constant="8" id="Vj4-3o-Guf"/>
+                <constraint firstAttribute="centerY" secondItem="AqH-nW-65R" secondAttribute="centerY" constant="20" id="iOX-J7-hKQ"/>
+            </constraints>
+        </view>
+    </objects>
+</document>
