@@ -23,9 +23,15 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-//	[self.navigationController.navigationBar setFrame:CGRectMake(0, 19, self.view.frame.size.width, 44)];
 	[self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:(20.f)]}];
 	[_editButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:20.0f]} forState:UIControlStateNormal];
+//	[self setTabBarVisible:NO animated:YES];
+//	[self.tabBarController.tabBar setHidden:YES];
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+//	[self setTabBarVisible:YES animated:YES];
+//	[self.tabBarController.tabBar setHidden:NO];
 }
 
 - (void)viewDidLoad {
@@ -104,6 +110,24 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsPath = [paths objectAtIndex:0];
 	return [documentsPath stringByAppendingPathComponent:name];
+}
+
+#pragma mark - Tab Bar Hiding Animation
+
+- (void)setTabBarVisible:(BOOL)visible animated:(BOOL)animated {
+	if ([self tabBarIsVisible] == visible)
+		return;
+	CGRect frame = self.tabBarController.tabBar.frame;
+	CGFloat height = frame.size.height;
+	CGFloat offsetY = (visible)? -height : height;
+	CGFloat duration = (animated)? 0.3 : 0.0;
+	[UIView animateWithDuration:duration animations:^{
+		self.tabBarController.tabBar.frame = CGRectOffset(frame, 0, offsetY);
+	}];
+}
+
+- (BOOL)tabBarIsVisible {
+	return self.tabBarController.tabBar.frame.origin.y < CGRectGetMaxY(self.view.frame);
 }
 
 @end

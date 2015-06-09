@@ -11,6 +11,5 @@
 @interface TableCell : UITableViewCell
 
 @property (strong, nonatomic) IBOutlet UILabel *MovieList;
-@property (weak, nonatomic) IBOutlet UIImageView *tickMark;
 
 @end

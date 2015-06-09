@@ -17,6 +17,9 @@
 
 @interface AddViewController : UIViewController <UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 
+@property (strong, nonatomic) NSString *NameText;
+@property (strong, nonatomic) NSString *CatText;
+
 @property (weak, nonatomic) IBOutlet UITextField *CategoryField;
 @property (weak, nonatomic) IBOutlet UITextField *NameField;
 @property (weak, nonatomic) IBOutlet UIPickerView *CategoryPicker;
@@ -24,6 +27,10 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *DoneButton;
 
 @property (nonatomic, weak) id <AddViewControllerDelegate> delegate;
+
+- (IBAction)addMovie:(id)sender;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addButton;
+
 
 - (IBAction)DoneAction:(id)sender;
 

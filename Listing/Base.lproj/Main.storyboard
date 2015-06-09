@@ -49,24 +49,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.75" contentMode="scaleToFill" image="MovieIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="BnL-Zd-heI">
-                                <rect key="frame" x="256" y="28" width="88" height="88"/>
+                                <rect key="frame" x="256" y="72" width="88" height="88"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="88" id="f3n-zi-VQK"/>
                                     <constraint firstAttribute="height" constant="88" id="liV-KP-Dbm"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADD MOVIE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oal-Xw-glr">
-                                <rect key="frame" x="262" y="124" width="77" height="16"/>
+                                <rect key="frame" x="262" y="168" width="77" height="16"/>
                                 <fontDescription key="fontDescription" name="EtelkaNarrowTextPro" family="Etelka Text Pro" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="cGZ-we-xNj">
-                                <rect key="frame" x="140" y="438" width="320" height="162"/>
+                                <rect key="frame" x="140" y="394" width="320" height="162"/>
                                 <color key="tintColor" red="0.40000000600000002" green="1" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                             </pickerView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" alpha="0.80000001192092896" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rEx-Au-ta9">
-                                <rect key="frame" x="140" y="394" width="320" height="44"/>
+                                <rect key="frame" x="140" y="350" width="320" height="44"/>
                                 <items>
                                     <barButtonItem systemItem="done" id="5by-eo-ZYA">
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -78,7 +78,7 @@
                                 <color key="barTintColor" cocoaTouchSystemColor="darkTextColor"/>
                             </toolbar>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Category" textAlignment="center" minimumFontSize="17" background="TextFieldOutline.png" translatesAutoresizingMaskIntoConstraints="NO" id="SsK-ZV-jxf">
-                                <rect key="frame" x="60" y="179" width="480" height="52"/>
+                                <rect key="frame" x="60" y="223" width="480" height="52"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="52" id="FwJ-ho-GJC"/>
                                     <constraint firstAttribute="width" secondItem="SsK-ZV-jxf" secondAttribute="height" multiplier="53:9" id="yX5-u4-2nd"/>
@@ -98,19 +98,19 @@
                                 </variation>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="in Category" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tDU-5M-6eM">
-                                <rect key="frame" x="259" y="158" width="82" height="21"/>
+                                <rect key="frame" x="259" y="202" width="82" height="21"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
                                 <color key="textColor" red="0.92549019607843142" green="0.92549019607843142" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="with Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YWo-tz-RPa">
-                                <rect key="frame" x="266" y="303" width="68" height="21"/>
+                                <rect key="frame" x="266" y="347" width="68" height="21"/>
                                 <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Movie Name (YEAR)" textAlignment="center" minimumFontSize="17" background="TextFieldOutline.png" translatesAutoresizingMaskIntoConstraints="NO" id="8MW-Il-d32">
-                                <rect key="frame" x="16" y="247" width="568" height="52"/>
+                                <rect key="frame" x="16" y="291" width="568" height="52"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="52" id="366-EU-4iu"/>
                                     <constraint firstAttribute="width" secondItem="8MW-Il-d32" secondAttribute="height" multiplier="64:9" id="xk1-0c-E79"/>
@@ -164,17 +164,26 @@
                             </mask>
                         </variation>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem title="ADD" style="plain" id="av5-s3-4o9">
+                            <color key="tintColor" red="0.40000000600000002" green="1" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="addMovie:" destination="NsA-T3-jFF" id="HKT-ov-L7b"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <connections>
                         <outlet property="CategoryField" destination="SsK-ZV-jxf" id="aB0-7t-u7R"/>
                         <outlet property="CategoryPicker" destination="cGZ-we-xNj" id="uJG-rk-zyO"/>
                         <outlet property="DoneButton" destination="5by-eo-ZYA" id="bby-xQ-F9X"/>
                         <outlet property="NameField" destination="8MW-Il-d32" id="oeC-lO-Zxg"/>
                         <outlet property="PickerToolbar" destination="rEx-Au-ta9" id="Iug-js-Kel"/>
+                        <outlet property="addButton" destination="av5-s3-4o9" id="rwZ-Cv-5tG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RRj-fo-Zkr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1448" y="-1006"/>
+            <point key="canvasLocation" x="2119" y="-317"/>
         </scene>
         <!--MOVIES-->
         <scene sceneID="bdn-Vq-fIZ">
@@ -234,6 +243,7 @@
                                 <inset key="separatorInset" minX="30" minY="0.0" maxX="30" maxY="0.0"/>
                                 <connections>
                                     <outlet property="MovieList" destination="MxZ-Cr-TYO" id="9b4-k6-L1k"/>
+                                    <segue destination="NsA-T3-jFF" kind="show" identifier="MovieToAddMovie" id="Ezi-SM-n73"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -262,11 +272,18 @@
                                 <action selector="AddAction:" destination="7wM-rc-R65" id="LGT-IA-qs9"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem title="Edit" id="xGk-Bo-evk">
+                            <color key="tintColor" red="0.40000000600000002" green="1" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="EditAction:" destination="7wM-rc-R65" id="Uoz-vG-2fe"/>
+                            </connections>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="MOVIES" id="WJ3-Iu-gAZ"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="addButton" destination="CrZ-fb-k1U" id="VZd-ll-D5r"/>
+                        <outlet property="editButton" destination="xGk-Bo-evk" id="1DL-SJ-dfl"/>
                         <outlet property="searchButton" destination="8BK-wQ-8As" id="Ypd-uc-yUv"/>
                         <outlet property="searchDisplayController" destination="woS-Xr-aWM" id="iIq-zd-KiH"/>
                         <outlet property="sortButton" destination="prf-O9-Two" id="6iT-nY-iOI"/>
@@ -458,6 +475,18 @@
                                 <action selector="AlphabeticalAction:" destination="qFe-Sr-Gxq" id="SP3-wR-Fa0"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem image="CURRENTLY_FOLLOWING" id="KUP-G6-EQL">
+                            <color key="tintColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="followingAction:" destination="qFe-Sr-Gxq" id="aAR-gq-Y3T"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem image="CURRENTLY_FOLLOWING" id="CXD-AD-lIr">
+                            <color key="tintColor" red="0.073918269230769232" green="0.56600785851398605" blue="0.92515297202797198" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="tbdAction:" destination="qFe-Sr-Gxq" id="eEU-Zu-W83"/>
+                            </connections>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Shows" id="6J3-oN-zf6"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="black" translucent="NO"/>
@@ -465,7 +494,9 @@
                         <outlet property="AddButton" destination="cBd-ad-pVo" id="8JN-aT-ocv"/>
                         <outlet property="AlphabeticalButton" destination="CmO-Oa-adc" id="HUa-wh-cQ2"/>
                         <outlet property="EditButton" destination="sGI-OL-DgR" id="nxe-7o-cvL"/>
+                        <outlet property="followingButton" destination="KUP-G6-EQL" id="GH9-eS-mXL"/>
                         <outlet property="searchDisplayController" destination="91J-zz-D5J" id="mV3-Ab-SEF"/>
+                        <outlet property="tbdButton" destination="CXD-AD-lIr" id="NqH-wD-xjQ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3TT-ka-fP0" userLabel="First Responder" sceneMemberID="firstResponder"/>

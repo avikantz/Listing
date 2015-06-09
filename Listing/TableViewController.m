@@ -20,6 +20,7 @@
 
 @implementation TableViewController {
 	topView *topV;
+	BOOL editing;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -41,13 +42,17 @@
 	[backButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:20.0f]} forState:UIControlStateNormal];
 	[self.sortButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:20.0f]} forState:UIControlStateNormal];
 	[self.sortButton setTitle:@"SORT"];
+	[self.editButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:20.0f]} forState:UIControlStateNormal];
+	[self.editButton setTitle:@"EDIT"];
 	[self.navigationItem setBackBarButtonItem:backButton];
+	
+	editing = NO;
 	
 	self.tableView.contentOffset = CGPointMake(0.0, 44.0);
 	
 	// Buttons in Navigation Controller
 	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: _addButton, _searchButton, nil];
-	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:  _sortButton, nil];
+	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects: _editButton, _sortButton, nil];
 	self.navigationController.toolbarHidden = YES;
 	
 	// Load data from the defaults (saved, sorted data stuff) if available
@@ -227,8 +232,6 @@
 		cell.backgroundColor = [UIColor blackColor];
 		cell.backgroundView.backgroundColor = [UIColor blackColor];
     }
-	
-	cell.tickMark.hidden = YES;
 	
 	return cell;
 }
@@ -413,7 +416,6 @@
 - (IBAction)AddAction:(id)sender {
 	AddViewController *avc = [self.storyboard instantiateViewControllerWithIdentifier:@"AddViewController"];
 	avc.delegate = self;
-	avc.hidesBottomBarWhenPushed = YES;
 	[[self navigationController] pushViewController:avc animated:YES];
 }
 
@@ -573,12 +575,20 @@
 	}
 }
 
-#pragma mark - Search and Refresh Action
+#pragma mark - Search and Edit Action
 
 - (IBAction)SearchAction:(id)sender {
 	// Set the searchDisplayController active and set the searchBar active
 	[self.searchDisplayController setActive:YES animated:YES];
 	[self.searchDisplayController.searchBar becomeFirstResponder];
+}
+
+- (IBAction)EditAction:(id)sender {
+	editing = !editing;
+	if (editing)
+		[self.editButton setTitle:@"DONE"];
+	else
+		[self.editButton setTitle:@"EDIT"];
 }
 
 #pragma mark - Other methods
@@ -605,15 +615,27 @@
  }
  */
 
-/*
+
  #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
+ -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	 if ([segue.identifier isEqualToString:@"MovieToAddMovie"]) {
+		 AddViewController *avc = [segue destinationViewController];
+		 avc.delegate = self;
+		 NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+		 avc.NameText = [_Movies[_MovieListing[indexPath.section]] objectAtIndex:indexPath.row];
+		 avc.CatText = _MovieListing[indexPath.section];
+		 [avc.NameField becomeFirstResponder];
+		 [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:indexPath];
+	 }
+}
+
+-(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+	if (!editing)
+		return NO;
+	return YES;
+}
+
 
 
 @end

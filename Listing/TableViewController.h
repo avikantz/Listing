@@ -22,10 +22,12 @@
 - (IBAction)AddAction:(id)sender;
 - (IBAction)SortAction:(id)sender;
 - (IBAction)SearchAction:(id)sender;
+- (IBAction)EditAction:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *searchButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
 @property (nonatomic, assign) CGPoint lastContentOffset;
 @property (nonatomic, assign) NSInteger scrollDirection;

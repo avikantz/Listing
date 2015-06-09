@@ -7,6 +7,10 @@
 //
 
 #import "AddViewController.h"
+#define UIColorFromRGBWithAlpha(rgbValue, a) [UIColor \
+colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
+blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 
 @interface AddViewController ()
 
@@ -23,7 +27,15 @@
 	[self.CategoryField setDelegate:self];
 	[self.NameField setDelegate:self];
 	
+	self.NameField.text = self.NameText;
+	self.CategoryField.text = self.CatText;
+	
 	[_DoneButton setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:1 green:1 blue:0 alpha:0.8], NSFontAttributeName : [UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:18.0f]} forState:UIControlStateNormal];
+	
+	[self.addButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:20.0f]} forState:UIControlStateNormal];
+	[self.addButton setTitle:@"DONE"];
+	
+	self.navigationItem.rightBarButtonItem = self.addButton;
 	
 	// Initialize the 'catList' Array by initially adding 'Add New...'
 	catList = [[NSMutableArray alloc] initWithObjects:@"Add New...", nil];
@@ -44,6 +56,10 @@
 		_CategoryField.layer.transform = CATransform3DIdentity;
 		_NameField.layer.transform = CATransform3DIdentity;
 	}completion:nil];
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+//	[self addMovie:self];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -121,12 +137,24 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
 	if (row == 0)	// Category is 'Add New...'
-		[_CategoryField setText:@""];
+		[_CategoryField setText:self.CatText];
 	else
 		[_CategoryField setText:[catList objectAtIndex:row]];
 }
 
 #pragma mark - Done Action
+
+- (IBAction)addMovie:(id)sender {
+	[_NameField resignFirstResponder];
+	if (![[_CategoryField text] isEqualToString:@""] && ![[_NameField text] isEqualToString:@""]) {
+		[self.delegate addItemViewController:self didFinishEntereingMovieWithCategory:[_CategoryField text] andTitled:[_NameField text]];
+		[self.navigationController popToRootViewControllerAnimated:YES];
+	}
+	else {
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Can't Add" message:@"Unable to add a movie without a category (section) title and/or a Name. Please fucking don't leave the fields blank." delegate:self cancelButtonTitle:@"Fine." otherButtonTitles:nil, nil];
+		[alert show];
+	}
+}
 
 - (IBAction)DoneAction:(id)sender {
 	[UIView animateWithDuration:0.6 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -141,5 +169,24 @@
 		[_NameField becomeFirstResponder];
 	}
 }
+
+#pragma mark - Tab Bar Hiding Animation
+
+- (void)setTabBarVisible:(BOOL)visible animated:(BOOL)animated {
+	if ([self tabBarIsVisible] == visible)
+		return;
+	CGRect frame = self.tabBarController.tabBar.frame;
+	CGFloat height = frame.size.height;
+	CGFloat offsetY = (visible)? -height : height;
+	CGFloat duration = (animated)? 0.3 : 0.0;
+	[UIView animateWithDuration:duration animations:^{
+		self.tabBarController.tabBar.frame = CGRectOffset(frame, 0, offsetY);
+	}];
+}
+
+- (BOOL)tabBarIsVisible {
+	return self.tabBarController.tabBar.frame.origin.y < CGRectGetMaxY(self.view.frame);
+}
+
 
 @end

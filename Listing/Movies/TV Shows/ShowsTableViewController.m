@@ -74,8 +74,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	[self.tableView reloadData];
 	
 	// Adding the bar button items...
-	self.navigationItem.rightBarButtonItem = _EditButton;
-	self.navigationItem.leftBarButtonItem = _AlphabeticalButton;
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: _EditButton, _tbdButton, nil];
+	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:_AlphabeticalButton, _followingButton, nil];
 	self.navigationController.toolbarHidden = YES;
 	
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
@@ -246,7 +246,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 		DetailViewController *dvc = segue.destinationViewController;
 		dvc.Show = show;
 		dvc.data = FullList;
-		dvc.hidesBottomBarWhenPushed = YES;
+//		dvc.hidesBottomBarWhenPushed = YES;
 	}
 }
 
@@ -257,19 +257,50 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark - Edit Action
+#pragma mark - Sorts and Editing Action
 
-- (IBAction)EditAction:(id)sender {
-	if (self.editing) {
-		self.editing = NO;
-		[_EditButton setTitle:@"EDIT"];
-		[self.tableView reloadData];
+- (IBAction)followingAction:(id)sender {
+	ShowList = [[NSMutableArray alloc] init];
+	for(int i=0; i<[FullList count]; ++i){
+		TVShow *show = [TVShow new];
+		show.Title = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"Title"]];
+		show.Detail = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Detail"]];
+		if ([show.Detail containsString:@"CURRENTLY_FOLLOWING"])
+			[ShowList addObject:show];
 	}
-	else{
-		self.editing = YES;
-		[_EditButton setTitle:@"DONE"];
+	[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+		self.tableView.transform = CGAffineTransformMakeTranslation(0, -self.view.frame.size.height);
+		self.tableView.alpha = 0.5f;
+	} completion:^(BOOL finished) {
+		self.tableView.transform = CGAffineTransformMakeTranslation(0, self.view.frame.size.height);
 		[self.tableView reloadData];
+		[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+			self.tableView.transform = CGAffineTransformIdentity;
+			self.tableView.alpha = 1.f;
+		} completion:nil];
+	}];
+}
+
+- (IBAction)tbdAction:(id)sender {
+	ShowList = [[NSMutableArray alloc] init];
+	for(int i=0; i<[FullList count]; ++i){
+		TVShow *show = [TVShow new];
+		show.Title = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"Title"]];
+		show.Detail = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Detail"]];
+		if ([show.Detail containsString:@"TO_BE_DOWNLOADED"])
+			[ShowList addObject:show];
 	}
+	[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+		self.tableView.transform = CGAffineTransformMakeTranslation(0, self.view.frame.size.height);
+		self.tableView.alpha = 0.5f;
+	} completion:^(BOOL finished) {
+		self.tableView.transform = CGAffineTransformMakeTranslation(0, -self.view.frame.size.height);
+		[self.tableView reloadData];
+		[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+			self.tableView.transform = CGAffineTransformIdentity;
+			self.tableView.alpha = 1.f;
+		} completion:nil];
+	}];
 }
 
 - (IBAction)AlphabeticalAction:(id)sender {
@@ -296,8 +327,15 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 		}];
 	}
 	else {
-		[_AlphabeticalButton setTitle:@"RANKING"];
+		[_AlphabeticalButton setTitle:[NSString stringWithFormat:@"1...9"]];
 		self.EditButton.enabled = NO;
+		ShowList = [[NSMutableArray alloc] init];
+		for(int i=0; i<[FullList count]; ++i){
+			TVShow *show = [TVShow new];
+			show.Title = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"Title"]];
+			show.Detail = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Detail"]];
+			[ShowList addObject:show];
+		}
 		NSArray *sortedArray = [ShowList sortedArrayUsingComparator:^(TVShow *a, TVShow *b) {
 			return [a.Title caseInsensitiveCompare:b.Title];
 		}];
@@ -317,77 +355,84 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	isAlphabetical = !isAlphabetical;
 }
 
--(void)writeToDocuments {
-	NSData *data = [NSJSONSerialization dataWithJSONObject:FullList options:kNilOptions error:nil];
-	NSString *filepath = [self documentsPathForFileName:[NSString stringWithFormat:@"FullList.json"]];
-	[data writeToFile:filepath atomically:YES];
-	[[NSUserDefaults standardUserDefaults] setObject:filepath forKey:@"DownloadedListPath"];
-	[[NSUserDefaults standardUserDefaults] synchronize];
+/*
+#pragma mark - Scroll View Delegates
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+	CGRect frame = self.navigationController.navigationBar.frame;
+	CGFloat size = frame.size.height - 21;
+	CGFloat framePercentageHidden = ((20 - frame.origin.y) / (frame.size.height - 1));
+	CGFloat scrollOffset = scrollView.contentOffset.y;
+	CGFloat scrollDiff = scrollOffset - previousScrollViewYOffset;
+	CGFloat scrollHeight = scrollView.frame.size.height;
+	CGFloat scrollContentSizeHeight = scrollView.contentSize.height + scrollView.contentInset.bottom;
+	
+	if (scrollOffset <= -scrollView.contentInset.top) {
+		frame.origin.y = 20;
+	} else if ((scrollOffset + scrollHeight) >= scrollContentSizeHeight) {
+		frame.origin.y = -size;
+	} else {
+		frame.origin.y = MIN(20, MAX(-size, frame.origin.y - (frame.size.height * (scrollDiff / scrollHeight))));
+	}
+	
+	[self.navigationController.navigationBar setFrame:frame];
+	[self updateBarButtonItems:(1 - framePercentageHidden)];
+	previousScrollViewYOffset = scrollOffset;
 }
 
-//#pragma mark - Scroll View Delegates
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+	[self stoppedScrolling];
+}
 
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//	CGRect frame = self.navigationController.navigationBar.frame;
-//	CGFloat size = frame.size.height - 21;
-//	CGFloat framePercentageHidden = ((20 - frame.origin.y) / (frame.size.height - 1));
-//	CGFloat scrollOffset = scrollView.contentOffset.y;
-//	CGFloat scrollDiff = scrollOffset - previousScrollViewYOffset;
-//	CGFloat scrollHeight = scrollView.frame.size.height;
-//	CGFloat scrollContentSizeHeight = scrollView.contentSize.height + scrollView.contentInset.bottom;
-//	
-//	if (scrollOffset <= -scrollView.contentInset.top) {
-//		frame.origin.y = 20;
-//	} else if ((scrollOffset + scrollHeight) >= scrollContentSizeHeight) {
-//		frame.origin.y = -size;
-//	} else {
-//		frame.origin.y = MIN(20, MAX(-size, frame.origin.y - (frame.size.height * (scrollDiff / scrollHeight))));
-//	}
-//	
-//	[self.navigationController.navigationBar setFrame:frame];
-//	[self updateBarButtonItems:(1 - framePercentageHidden)];
-//	previousScrollViewYOffset = scrollOffset;
-//}
-//
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-//{
-//	[self stoppedScrolling];
-//}
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView
-//				  willDecelerate:(BOOL)decelerate
-//{
-//	if (!decelerate) {
-//		[self stoppedScrolling];
-//	}
-//}
-//
-//- (void)stoppedScrolling {
-//	CGRect frame = self.navigationController.navigationBar.frame;
-//	if (frame.origin.y < 20) {
-//		[self animateNavBarTo:-(frame.size.height - 21)];
-//	}
-//}
-//
-//- (void)updateBarButtonItems:(CGFloat)alpha {
-//	[self.EditButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, alpha), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:alpha*20.0f]} forState:UIControlStateNormal];
-//	[self.AlphabeticalButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, alpha), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:alpha*20.0f]} forState:UIControlStateNormal];
-//	[self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, alpha), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:(alpha*20.f)]}];
-//}
-//
-//- (void)animateNavBarTo:(CGFloat)y
-//{
-//	[UIView animateWithDuration:0.2 animations:^{
-//		CGRect frame = self.navigationController.navigationBar.frame;
-//		CGFloat alpha = (frame.origin.y >= y ? 0 : 1);
-//		frame.origin.y = y;
-//		[self.navigationController.navigationBar setFrame:frame];
-//		[self updateBarButtonItems:alpha];
-//	}];
-//}
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView
+				  willDecelerate:(BOOL)decelerate
+{
+	if (!decelerate) {
+		[self stoppedScrolling];
+	}
+}
+
+- (void)stoppedScrolling {
+	CGRect frame = self.navigationController.navigationBar.frame;
+	if (frame.origin.y < 20) {
+		[self animateNavBarTo:-(frame.size.height - 21)];
+	}
+}
+
+- (void)updateBarButtonItems:(CGFloat)alpha {
+	[self.EditButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, alpha), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:alpha*20.0f]} forState:UIControlStateNormal];
+	[self.AlphabeticalButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, alpha), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:alpha*20.0f]} forState:UIControlStateNormal];
+	[self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, alpha), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:(alpha*20.f)]}];
+}
+
+- (void)animateNavBarTo:(CGFloat)y
+{
+	[UIView animateWithDuration:0.2 animations:^{
+		CGRect frame = self.navigationController.navigationBar.frame;
+		CGFloat alpha = (frame.origin.y >= y ? 0 : 1);
+		frame.origin.y = y;
+		[self.navigationController.navigationBar setFrame:frame];
+		[self updateBarButtonItems:alpha];
+	}];
+}
+*/
 
 #pragma mark - Tableview Editing Delegates
+
+- (IBAction)EditAction:(id)sender {
+	if (self.editing) {
+		self.editing = NO;
+		[_EditButton setTitle:@"EDIT"];
+		[self.tableView reloadData];
+	}
+	else{
+		self.editing = YES;
+		[_EditButton setTitle:@"DONE"];
+		[self.tableView reloadData];
+	}
+}
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
 	return YES;
@@ -427,6 +472,16 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsPath = [paths objectAtIndex:0];
 	return [documentsPath stringByAppendingPathComponent:name];
+}
+
+#pragma mark - Write to Docs
+
+-(void)writeToDocuments {
+	NSData *data = [NSJSONSerialization dataWithJSONObject:FullList options:kNilOptions error:nil];
+	NSString *filepath = [self documentsPathForFileName:[NSString stringWithFormat:@"FullList.json"]];
+	[data writeToFile:filepath atomically:YES];
+	[[NSUserDefaults standardUserDefaults] setObject:filepath forKey:@"DownloadedListPath"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end
