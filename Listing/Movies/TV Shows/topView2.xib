@@ -12,6 +12,8 @@
             <string>EtelkaNarrowTextPro</string>
             <string>EtelkaNarrowTextPro</string>
             <string>EtelkaNarrowTextPro</string>
+            <string>EtelkaNarrowTextPro</string>
+            <string>EtelkaNarrowTextPro</string>
         </mutableArray>
         <mutableArray key="Tall Films Expanded.ttf">
             <string>TallFilmsExpanded</string>
@@ -32,7 +34,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.44999999999999962" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="112 SHOWS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7nV-Ge-75t">
-                    <rect key="frame" x="242" y="497" width="118" height="46"/>
+                    <rect key="frame" x="241" y="497" width="118" height="46"/>
                     <fontDescription key="fontDescription" name="TallFilmsExpanded" family="Tall Films Expanded" pointSize="45"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -70,30 +72,48 @@
                     <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(701.83 GB)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oil-sr-CvF">
+                    <rect key="frame" x="366" y="581" width="77" height="16"/>
+                    <fontDescription key="fontDescription" name="EtelkaNarrowTextPro" family="Etelka Text Pro" pointSize="17"/>
+                    <color key="textColor" red="0.40000000600000002" green="1" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7777 Episodes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nCo-1r-77S">
+                    <rect key="frame" x="144" y="581" width="95" height="16"/>
+                    <fontDescription key="fontDescription" name="EtelkaNarrowTextPro" family="Etelka Text Pro" pointSize="17"/>
+                    <color key="textColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.047058823530000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="pzj-Ox-aCM" secondAttribute="bottom" id="0Sy-fb-xvu"/>
+                <constraint firstAttribute="bottom" secondItem="nCo-1r-77S" secondAttribute="bottom" constant="3" id="1sz-sg-Rug"/>
                 <constraint firstItem="76g-cu-hOn" firstAttribute="centerX" secondItem="pzj-Ox-aCM" secondAttribute="centerX" id="4EZ-nB-tto"/>
-                <constraint firstItem="pzj-Ox-aCM" firstAttribute="centerX" secondItem="7nV-Ge-75t" secondAttribute="centerX" constant="-0.5" id="5Yd-IG-dHZ"/>
+                <constraint firstItem="pzj-Ox-aCM" firstAttribute="centerX" secondItem="7nV-Ge-75t" secondAttribute="centerX" id="5Yd-IG-dHZ"/>
                 <constraint firstItem="pzj-Ox-aCM" firstAttribute="top" secondItem="76g-cu-hOn" secondAttribute="bottom" constant="43" id="647-dK-7IQ"/>
                 <constraint firstItem="76g-cu-hOn" firstAttribute="leading" secondItem="RtE-7X-YBq" secondAttribute="leading" constant="-2" id="6NF-U6-vrV"/>
                 <constraint firstAttribute="centerX" secondItem="7nV-Ge-75t" secondAttribute="centerX" constant="-0.5" id="8HW-eu-lzL"/>
+                <constraint firstItem="pzj-Ox-aCM" firstAttribute="leading" secondItem="nCo-1r-77S" secondAttribute="leading" constant="87" id="8xH-We-vaf"/>
                 <constraint firstItem="HXC-QY-dEN" firstAttribute="leading" secondItem="RtE-7X-YBq" secondAttribute="trailing" constant="8" id="En4-gM-fbh"/>
-                <constraint firstItem="pzj-Ox-aCM" firstAttribute="centerY" secondItem="7nV-Ge-75t" secondAttribute="centerY" constant="0.5" id="G54-Zz-cTy"/>
+                <constraint firstItem="Oil-sr-CvF" firstAttribute="leading" secondItem="pzj-Ox-aCM" secondAttribute="trailing" constant="-14" id="Fmu-uo-rfn"/>
+                <constraint firstItem="pzj-Ox-aCM" firstAttribute="centerY" secondItem="7nV-Ge-75t" secondAttribute="centerY" id="G54-Zz-cTy"/>
                 <constraint firstItem="bOf-aM-Uv3" firstAttribute="leading" secondItem="wzs-0I-8mR" secondAttribute="trailing" constant="8" id="Kgi-Sn-55k"/>
                 <constraint firstAttribute="centerX" secondItem="pzj-Ox-aCM" secondAttribute="centerX" id="KvH-vw-3vY"/>
                 <constraint firstItem="HXC-QY-dEN" firstAttribute="centerY" secondItem="RtE-7X-YBq" secondAttribute="centerY" id="LR5-k5-sUr"/>
                 <constraint firstAttribute="bottom" secondItem="7nV-Ge-75t" secondAttribute="bottom" constant="8" id="Nlh-Iz-Wbv"/>
                 <constraint firstItem="wzs-0I-8mR" firstAttribute="centerX" secondItem="RtE-7X-YBq" secondAttribute="centerX" id="Nr9-bN-S7m"/>
+                <constraint firstItem="pzj-Ox-aCM" firstAttribute="leading" secondItem="nCo-1r-77S" secondAttribute="trailing" constant="-19" id="PzT-Ol-nz4"/>
                 <constraint firstItem="DeU-Il-u2Q" firstAttribute="leading" secondItem="u8v-Ik-TDi" secondAttribute="trailing" constant="8" id="Qzf-RR-o8a"/>
                 <constraint firstItem="76g-cu-hOn" firstAttribute="centerX" secondItem="pzj-Ox-aCM" secondAttribute="centerX" constant="0.5" id="UtE-jD-JWS"/>
                 <constraint firstItem="u8v-Ik-TDi" firstAttribute="centerX" secondItem="wzs-0I-8mR" secondAttribute="centerX" id="XGH-jU-CbN"/>
                 <constraint firstItem="RtE-7X-YBq" firstAttribute="leading" secondItem="pzj-Ox-aCM" secondAttribute="leading" constant="22" id="Yp5-Wy-269"/>
                 <constraint firstItem="DeU-Il-u2Q" firstAttribute="centerY" secondItem="u8v-Ik-TDi" secondAttribute="centerY" id="bH2-hO-fkw"/>
                 <constraint firstItem="wzs-0I-8mR" firstAttribute="top" secondItem="u8v-Ik-TDi" secondAttribute="bottom" constant="8" id="eug-jM-b0P"/>
+                <constraint firstItem="Oil-sr-CvF" firstAttribute="trailing" secondItem="pzj-Ox-aCM" secondAttribute="trailing" constant="88" id="ijL-NN-1an"/>
                 <constraint firstItem="pzj-Ox-aCM" firstAttribute="top" secondItem="76g-cu-hOn" secondAttribute="bottom" constant="-21" id="q3h-fB-MJC"/>
                 <constraint firstItem="pzj-Ox-aCM" firstAttribute="top" secondItem="RtE-7X-YBq" secondAttribute="bottom" constant="-17" id="qkm-eP-eMK"/>
+                <constraint firstAttribute="bottom" secondItem="Oil-sr-CvF" secondAttribute="bottom" constant="3" id="rLl-Oz-uad"/>
                 <constraint firstItem="wzs-0I-8mR" firstAttribute="centerY" secondItem="bOf-aM-Uv3" secondAttribute="centerY" id="sXr-3x-DSk"/>
                 <constraint firstItem="RtE-7X-YBq" firstAttribute="top" secondItem="wzs-0I-8mR" secondAttribute="bottom" constant="8" id="thq-ma-020"/>
                 <constraint firstItem="76g-cu-hOn" firstAttribute="top" secondItem="RtE-7X-YBq" secondAttribute="bottom" constant="8" id="zFK-lk-oTv"/>
@@ -103,12 +123,16 @@
                     <exclude reference="6NF-U6-vrV"/>
                     <exclude reference="UtE-jD-JWS"/>
                     <exclude reference="zFK-lk-oTv"/>
+                    <exclude reference="8xH-We-vaf"/>
                     <exclude reference="q3h-fB-MJC"/>
                     <exclude reference="8HW-eu-lzL"/>
                     <exclude reference="Nlh-Iz-Wbv"/>
+                    <exclude reference="ijL-NN-1an"/>
                 </mask>
             </variation>
             <connections>
+                <outlet property="episodeCountLabel" destination="nCo-1r-77S" id="BZh-WE-hxX"/>
+                <outlet property="sizeCountLabel" destination="Oil-sr-CvF" id="JQR-gT-TGx"/>
                 <outlet property="topLabel" destination="7nV-Ge-75t" id="5wk-cm-qGB"/>
                 <outlet property="tvImage" destination="pzj-Ox-aCM" id="eOo-LG-fWC"/>
             </connections>

@@ -13,4 +13,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *topLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *tvImage;
 
+@property (weak, nonatomic) IBOutlet UILabel *episodeCountLabel;
+@property (weak, nonatomic) IBOutlet UILabel *sizeCountLabel;
+
+
 @end

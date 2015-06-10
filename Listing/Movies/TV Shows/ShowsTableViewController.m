@@ -24,6 +24,9 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	BOOL isAlphabetical;
 	
 	CGFloat previousScrollViewYOffset;
+	
+	NSInteger episodeCount;
+	CGFloat sizeCount;
 }
 
 @end
@@ -33,45 +36,13 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	[self viewDidAppear:YES];
+	
 	[self.tabBarController.tabBar setBarTintColor:UIColorFromRGBWithAlpha(0x000000, 0.5)];
 	[self.tabBarController.tabBar setTintColor:UIColorFromRGBWithAlpha(0x66ffcc, 1)];
 	
 	isAlphabetical = NO;
 	
-	NSString *filepath = [self documentsPathForFileName:[NSString stringWithFormat:@"FullList.json"]];
-	if (![NSData dataWithContentsOfFile:filepath]) {
-//		NSLog(@"Original Store");
-		FullList = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"TVList" ofType:@"json"]] options:kNilOptions error:nil];
-		[[NSData dataWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"TVList" ofType:@"json"]] writeToFile:filepath atomically:YES];
-		[[NSUserDefaults standardUserDefaults] setObject:filepath forKey:@"DownloadedListPath"];
-		[[NSUserDefaults standardUserDefaults] synchronize];
-	}
-	else {
-		FullList = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filepath] options:kNilOptions error:nil];
-//		NSLog(@"Documents Data");
-	}
-	
-	ShowList = [[NSMutableArray alloc] init];
-	
-	for(int i=0; i<[FullList count]; ++i){
-		// Add a 'TVShow: NSObject' object
-		TVShow *show = [TVShow new];
-		
-		// Add Details to the object
-		show.Title = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"Title"]];
-		show.Detail = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Detail"]];
-		
-		// Add the object to the 'ShowList' Array
-		[ShowList addObject:show];
-	}
-
-	// Add the topView 'XIB' with the number of shows and images...
-	topV = [[[NSBundle mainBundle] loadNibNamed:@"topView2" owner:self options:nil] objectAtIndex:0];
-	[topV setFrame:CGRectMake(0, -(self.view.frame.size.height), self.view.frame.size.width, self.view.frame.size.height)];
-	topV.topLabel.text = [NSString stringWithFormat:@"%li SHOWS", (long)[ShowList count]];
-	[self.tableView addSubview:topV];
-	
-	[self.tableView reloadData];
 	
 	// Adding the bar button items...
 	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: _EditButton, _tbdButton, nil];
@@ -117,13 +88,29 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 		FullList = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:filepath] options:kNilOptions error:nil];
 		//		NSLog(@"Documents Data");
 	}
+	
 	ShowList = [[NSMutableArray alloc] init];
+	
+	episodeCount = 0;
+	sizeCount = 0.f;
+	
 	for(int i=0; i<[FullList count]; ++i){
+		// Add a 'TVShow: NSObject' object
 		TVShow *show = [TVShow new];
+		
+		// Add Details to the object
 		show.Title = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"Title"]];
 		show.Detail = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Detail"]];
+		
+		episodeCount += [self numberOfEpisodesInString:show.Detail];
+		sizeCount += [self sizeOfShowFromString:show.Detail];
+		
+//		NSLog(@"%@:, Episodes = %li, Size = %0.2f", show.Title, [self numberOfEpisodesInString:show.Detail], [self sizeOfShowFromString:show.Detail]);
+		
+		// Add the object to the 'ShowList' Array
 		[ShowList addObject:show];
 	}
+	
 	if (!isAlphabetical) {
 		
 	}
@@ -133,6 +120,15 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 		}];
 		ShowList = [[NSMutableArray alloc] initWithArray:sortedArray];
 	}
+	
+	// Add the topView 'XIB' with the number of shows and images...
+	topV = [[[NSBundle mainBundle] loadNibNamed:@"topView2" owner:self options:nil] objectAtIndex:0];
+	[topV setFrame:CGRectMake(0, -(self.view.frame.size.height), self.view.frame.size.width, self.view.frame.size.height)];
+	topV.topLabel.text = [NSString stringWithFormat:@"%li SHOWS", (long)[ShowList count]];
+	topV.episodeCountLabel.text = [NSString stringWithFormat:@"%li Episodes", episodeCount];
+	topV.sizeCountLabel.text = [NSString stringWithFormat:@"(%0.2f GB)", sizeCount];
+	[self.tableView addSubview:topV];
+	
 	[self.tableView reloadData];
 }
 
@@ -214,6 +210,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	cell.TO_BE_DOWNLOADED.hidden = YES;
 	cell.TO_BE_ENCODED.hidden = YES;
 	cell.CURRENTLY_FOLLOWING.hidden = YES;
+	
 	if ([show.Detail containsString:@"TO_BE_ENCODED"])
 		cell.TO_BE_ENCODED.hidden = NO;
 	if ([show.Detail containsString:@"TO_BE_DOWNLOADED"])
@@ -482,6 +479,42 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	[data writeToFile:filepath atomically:YES];
 	[[NSUserDefaults standardUserDefaults] setObject:filepath forKey:@"DownloadedListPath"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark - Other Methods
+
+-(NSInteger)numberOfEpisodesInString:(NSString *)string {
+	NSInteger nooe = 0, to = 0;
+	for (int i = 0; i < 40; ++i) {
+		if ([string characterAtIndex:i] == 'E' && [string characterAtIndex:i+1] == 'p' && [string characterAtIndex:i+2] == 'i')
+			to = i-1;
+	}
+	NSString *nooeString = [[string substringFromIndex:MAX(0, to-4)] substringToIndex:4];
+	nooeString = [nooeString stringByReplacingOccurrencesOfString:@", " withString:@""];
+	nooeString = [nooeString stringByReplacingOccurrencesOfString:@"n" withString:@""];
+	nooeString = [nooeString stringByReplacingOccurrencesOfString:@"s" withString:@""];
+	nooe = [nooeString integerValue];
+	return nooe;
+}
+
+-(CGFloat)sizeOfShowFromString:(NSString *)string {
+	CGFloat sizeInGB = 0.f;
+	NSInteger to = 0, from = 0;
+	NSString *sizeString;
+	for (int i = 0; i < 40; ++i) {
+		if ([string characterAtIndex:i] == '(')
+			from = i;
+		if ([string characterAtIndex:i] == ')') {
+			to = i;
+			break;
+		}
+	}
+	sizeString = [[string substringFromIndex:from+1] substringToIndex:to - from];
+	if ([sizeString containsString:@"MB"])
+		sizeInGB = [sizeString floatValue]/1000;
+	else
+		sizeInGB = [sizeString floatValue];
+	return sizeInGB;
 }
 
 @end
