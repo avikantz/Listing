@@ -52,7 +52,8 @@
 	
 	// Buttons in Navigation Controller
 	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: _addButton, _searchButton, nil];
-	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects: _editButton, _sortButton, nil];
+//	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects: _editButton, _sortButton, nil];
+	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects: _sortButton, nil];
 	self.navigationController.toolbarHidden = YES;
 	
 	// Load data from the defaults (saved, sorted data stuff) if available
@@ -476,84 +477,36 @@
 #pragma mark - Sorting Action
 
 - (IBAction)SortAction:(id)sender {
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Sort" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Alphabetically", @"Oldest First", @"Newest First", @"Default", nil];
-	[actionSheet showInView:self.view];
+	UICustomActionSheet *customActionSheet = [[UICustomActionSheet alloc] initWithTitle:@"SORT" delegate:self buttonTitles:@[@"Alphabetically", @"Oldest First", @"Newest First", @"Default"]];
+	[customActionSheet setButtonColors:@[UIColorFromRGBWithAlpha(0x191919, 1),
+										 UIColorFromRGBWithAlpha(0xc42020, 1),
+										 UIColorFromRGBWithAlpha(0x408040, 1),
+										 UIColorFromRGBWithAlpha(0x0080ff, 1)]];
+	[customActionSheet setButtonsTextColor:[UIColor whiteColor]];
+	[customActionSheet setBackgroundColor:[UIColor blackColor]];
+	[customActionSheet showInView:self.tabBarController.view];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
-	if ([title isEqualToString:@"Alphabetically"]){
-		NSMutableDictionary *Movies2 = [[NSMutableDictionary alloc] init];
-		for (NSString *key in _Movies) {
-			NSMutableArray *Array2 = [[NSMutableArray alloc] init];
-			for (NSString *value in _Movies[key])
-				[Array2 addObject:value];
-			NSArray *sortedArray2 = [Array2 sortedArrayUsingComparator:^(NSString *a, NSString *b){
-				return [a caseInsensitiveCompare:b];
-			}];
-			[Movies2 setObject:sortedArray2 forKey:key];
-		}
-		_Movies = Movies2;
-		[self populateFullList];
-		[self addHiddenTitleForTableView];
-		[self writeDataToDefaults];
-		[self.tableView reloadData];
-	}
-	else if ([title isEqualToString:@"Oldest First"]) {
-		NSMutableDictionary *Movies2 = [[NSMutableDictionary alloc] init];
-		for (NSString *key in _Movies) {
-			NSMutableArray *Array2 = [[NSMutableArray alloc] init];
-			for (NSString *value in _Movies[key])
-				[Array2 addObject:value];
-			NSArray *sortedArray2 = [Array2 sortedArrayUsingComparator:^(NSString *a, NSString *b){
-				NSString *aa = [a substringWithRange:NSMakeRange([a length] - 5, 4)];
-				NSString *bb = [b substringWithRange:NSMakeRange([b length] - 5, 4)];
-				if ([aa compare:bb] == NSOrderedAscending)
-					return NSOrderedAscending;
-				return NSOrderedDescending;
-			}];
-			[Movies2 setObject:sortedArray2 forKey:key];
-		}
-		_Movies = Movies2;
-		[self populateFullList];
-		[self addHiddenTitleForTableView];
-		[self writeDataToDefaults];
-		[self.tableView reloadData];
-	}
-	else if ([title isEqualToString:@"Newest First"]) {
-		NSMutableDictionary *Movies2 = [[NSMutableDictionary alloc] init];
-		for (NSString *key in _Movies) {
-			NSMutableArray *Array2 = [[NSMutableArray alloc] init];
-			for (NSString *value in _Movies[key])
-				[Array2 addObject:value];
-			NSArray *sortedArray2 = [Array2 sortedArrayUsingComparator:^(NSString *a, NSString *b){
-				NSString *aa = [a substringWithRange:NSMakeRange([a length] - 5, 4)];
-				NSString *bb = [b substringWithRange:NSMakeRange([b length] - 5, 4)];
-				if ([aa compare:bb] == NSOrderedAscending)
-					return NSOrderedDescending;
-				return NSOrderedAscending;
-			}];
-			[Movies2 setObject:sortedArray2 forKey:key];
-		}
-		_Movies = Movies2;
-		[self populateFullList];
-		[self addHiddenTitleForTableView];
-		[self writeDataToDefaults];
-		[self.tableView reloadData];
-	}
-	else if ([title isEqualToString:@"Default"]) {
-		NSMutableDictionary *Movies2 = [[NSMutableDictionary alloc] init];
-		for (NSString *key in _Movies) {
-			NSMutableArray *Array2 = [[NSMutableArray alloc] init];
-			for (NSString *value in _Movies[key])
-				[Array2 addObject:value];
-			if ([key length] == 1) {
+-(void)customActionSheet:(UICustomActionSheet *)customActionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	NSMutableDictionary *Movies2 = [[NSMutableDictionary alloc] init];
+	switch (buttonIndex) {
+		case 0: {
+			for (NSString *key in _Movies) {
+				NSMutableArray *Array2 = [[NSMutableArray alloc] init];
+				for (NSString *value in _Movies[key])
+					[Array2 addObject:value];
 				NSArray *sortedArray2 = [Array2 sortedArrayUsingComparator:^(NSString *a, NSString *b){
 					return [a caseInsensitiveCompare:b];
 				}];
 				[Movies2 setObject:sortedArray2 forKey:key];
 			}
-			else {
+		}
+			break;
+		case 1: {
+			for (NSString *key in _Movies) {
+				NSMutableArray *Array2 = [[NSMutableArray alloc] init];
+				for (NSString *value in _Movies[key])
+					[Array2 addObject:value];
 				NSArray *sortedArray2 = [Array2 sortedArrayUsingComparator:^(NSString *a, NSString *b){
 					NSString *aa = [a substringWithRange:NSMakeRange([a length] - 5, 4)];
 					NSString *bb = [b substringWithRange:NSMakeRange([b length] - 5, 4)];
@@ -564,15 +517,55 @@
 				[Movies2 setObject:sortedArray2 forKey:key];
 			}
 		}
-		_Movies = Movies2;
-		[self populateFullList];
-		[self addHiddenTitleForTableView];
-		[self writeDataToDefaults];
-		[self.tableView reloadData];
+			break;
+		case 2: {
+			for (NSString *key in _Movies) {
+				NSMutableArray *Array2 = [[NSMutableArray alloc] init];
+				for (NSString *value in _Movies[key])
+					[Array2 addObject:value];
+				NSArray *sortedArray2 = [Array2 sortedArrayUsingComparator:^(NSString *a, NSString *b){
+					NSString *aa = [a substringWithRange:NSMakeRange([a length] - 5, 4)];
+					NSString *bb = [b substringWithRange:NSMakeRange([b length] - 5, 4)];
+					if ([aa compare:bb] == NSOrderedAscending)
+						return NSOrderedDescending;
+					return NSOrderedAscending;
+				}];
+				[Movies2 setObject:sortedArray2 forKey:key];
+			}
+		}
+			break;
+		case 3: {
+			for (NSString *key in _Movies) {
+				NSMutableArray *Array2 = [[NSMutableArray alloc] init];
+				for (NSString *value in _Movies[key])
+					[Array2 addObject:value];
+				if ([key length] == 1) {
+					NSArray *sortedArray2 = [Array2 sortedArrayUsingComparator:^(NSString *a, NSString *b){
+						return [a caseInsensitiveCompare:b];
+					}];
+					[Movies2 setObject:sortedArray2 forKey:key];
+				}
+				else {
+					NSArray *sortedArray2 = [Array2 sortedArrayUsingComparator:^(NSString *a, NSString *b){
+						NSString *aa = [a substringWithRange:NSMakeRange([a length] - 5, 4)];
+						NSString *bb = [b substringWithRange:NSMakeRange([b length] - 5, 4)];
+						if ([aa compare:bb] == NSOrderedAscending)
+							return NSOrderedAscending;
+						return NSOrderedDescending;
+					}];
+					[Movies2 setObject:sortedArray2 forKey:key];
+				}
+			}
+		}
+			break;
+		default:
+			break;
 	}
-	else {
-		
-	}
+	_Movies = Movies2;
+	[self populateFullList];
+	[self addHiddenTitleForTableView];
+	[self writeDataToDefaults];
+	[self.tableView reloadData];
 }
 
 #pragma mark - Search and Edit Action

@@ -42,6 +42,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	[self.tabBarController.tabBar setBarTintColor:UIColorFromRGBWithAlpha(0x000000, 0.5)];
 	[self.tabBarController.tabBar setTintColor:UIColorFromRGBWithAlpha(0x66ffcc, 1)];
 	
+	self.tableView.contentOffset = CGPointMake(0.0, 44.0);
+	
 	sortOrder = SortOrder_RANKING;
 	
 	// Adding the bar button items...
@@ -299,12 +301,21 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 #pragma mark - Sort Thingies
 
 - (IBAction)sortAction:(id)sender {
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Sort" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Rank Wise", @"Alphabetically", @"Currently Following", @"To Be Downloaded", @"To Be Encoded", @"Episode Count", @"Size", nil];
-	[actionSheet setDelegate:self];
-	[actionSheet showInView:self.view];
+	UICustomActionSheet *customActionSheet = [[UICustomActionSheet alloc] initWithTitle:@"SORT" delegate:self buttonTitles:@[@"Rank Wise", @"Alphabetically", @"Currently Following", @"To Be Downloaded", @"To Be Encoded", @"Episode Count", @"Size"]];
+	[customActionSheet setButtonColors:@[UIColorFromRGBWithAlpha(0x191919, 1),
+										 UIColorFromRGBWithAlpha(0x4c4c4c, 1),
+										 UIColorFromRGBWithAlpha(0x54d23f, 1),
+										 UIColorFromRGBWithAlpha(0x0080ff, 1),
+										 UIColorFromRGBWithAlpha(0xee8615, 1),
+										 UIColorFromRGBWithAlpha(0xecec0c, 0.8f),
+										 UIColorFromRGBWithAlpha(0x66ffcc, 0.8f)]];
+	[customActionSheet setButtonsTextColor:[UIColor whiteColor]];
+	[customActionSheet setBackgroundColor:[UIColor blackColor]];
+	[customActionSheet showInView:self.tabBarController.view];
 }
 
--(void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex {
+-(void)customActionSheet:(UICustomActionSheet *)customActionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	[self sortShowListWithSortOrder:buttonIndex];
 	[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
 		self.tableView.transform = CGAffineTransformMakeTranslation(-self.view.frame.size.width, 0);
 		self.tableView.alpha = 0.2f;
@@ -316,33 +327,6 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 			self.tableView.alpha = 1.f;
 		} completion:nil];
 	}];
-}
-
--(void)actionSheetCancel:(UIActionSheet *)actionSheet {
-	
-}
-
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	
-	NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
-	if ([title isEqualToString:@"Rank Wise"])
-		sortOrder = SortOrder_RANKING;
-	else if ([title isEqualToString:@"Alphabetically"])
-		sortOrder = SortOrder_ALPHABETICAL;
-	else if ([title isEqualToString:@"Currently Following"])
-		sortOrder = SortOrder_CURRENTLY_FOLLOWING;
-	else if ([title isEqualToString:@"To Be Downloaded"])
-		sortOrder = SortOrder_TO_BE_DOWNLOADED;
-	else if ([title isEqualToString:@"To Be Encoded"])
-		sortOrder = SortOrder_TO_BE_ENCODED;
-	else if ([title isEqualToString:@"Episode Count"])
-		sortOrder = SortOrder_EPISODE_COUNT;
-	else if ([title isEqualToString:@"Size"])
-		sortOrder = SortOrder_SIZE;
-	
-	[self sortShowListWithSortOrder:sortOrder];
-	
-	
 }
 
 -(void)sortShowListWithSortOrder: (SortOrder)sortorder {

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "AddViewController.h"
+#import "UICustomActionSheet.h"
 
-@interface TableViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate, UIAlertViewDelegate, UIActionSheetDelegate, AddViewControllerDelegate>
+@interface TableViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate, UIAlertViewDelegate, UIActionSheetDelegate, UICustomActionSheetDelegate, AddViewControllerDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary *Movies;		// Storing the entire dictionary
 @property (nonatomic, strong) NSMutableArray *MovieListing;		// Sorting the dictionary Keys

@@ -59,7 +59,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
-//	[self addMovie:self];
+//	if (![[_CategoryField text] isEqualToString:@""] && ![[_NameField text] isEqualToString:@""])
+//		[self.delegate addItemViewController:self didFinishEntereingMovieWithCategory:[_CategoryField text] andTitled:[_NameField text]];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{

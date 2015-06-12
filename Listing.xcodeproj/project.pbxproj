@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		591139D81B26E46A007FDEAD /* Suits.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 591139D71B26E46A007FDEAD /* Suits.jpg */; };
 		591139DA1B26F038007FDEAD /* Sense8.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 591139D91B26F038007FDEAD /* Sense8.jpg */; };
+		594F047C1B2B44410074AB44 /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 594F04791B2B44410074AB44 /* ILTranslucentView.m */; };
+		594F047D1B2B44410074AB44 /* UICustomActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 594F047B1B2B44410074AB44 /* UICustomActionSheet.m */; };
 		598A2F5E1B1A320F00E50202 /* Marvel's Daredevil.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 598A2F5D1B1A320F00E50202 /* Marvel's Daredevil.jpg */; };
 		598A2F601B1A323800E50202 /* TVList.json in Resources */ = {isa = PBXBuildFile; fileRef = 598A2F5F1B1A323800E50202 /* TVList.json */; };
 		5999E1D41B1CBD3E00F601C5 /* A Bit of Fry and Laurie.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5999E1C01B1CBD3E00F601C5 /* A Bit of Fry and Laurie.jpg */; };
@@ -164,6 +166,10 @@
 /* Begin PBXFileReference section */
 		591139D71B26E46A007FDEAD /* Suits.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Suits.jpg; sourceTree = "<group>"; };
 		591139D91B26F038007FDEAD /* Sense8.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Sense8.jpg; sourceTree = "<group>"; };
+		594F04781B2B44410074AB44 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
+		594F04791B2B44410074AB44 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
+		594F047A1B2B44410074AB44 /* UICustomActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICustomActionSheet.h; sourceTree = "<group>"; };
+		594F047B1B2B44410074AB44 /* UICustomActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICustomActionSheet.m; sourceTree = "<group>"; };
 		598A2F5D1B1A320F00E50202 /* Marvel's Daredevil.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Marvel's Daredevil.jpg"; sourceTree = "<group>"; };
 		598A2F5F1B1A323800E50202 /* TVList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TVList.json; sourceTree = "<group>"; };
 		5999E1C01B1CBD3E00F601C5 /* A Bit of Fry and Laurie.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "A Bit of Fry and Laurie.jpg"; sourceTree = "<group>"; };
@@ -343,6 +349,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		594F04771B2B44410074AB44 /* CustomActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				594F04781B2B44410074AB44 /* ILTranslucentView.h */,
+				594F04791B2B44410074AB44 /* ILTranslucentView.m */,
+				594F047A1B2B44410074AB44 /* UICustomActionSheet.h */,
+				594F047B1B2B44410074AB44 /* UICustomActionSheet.m */,
+			);
+			path = CustomActionSheet;
+			sourceTree = "<group>";
+		};
 		59CB8AC81B19B99F001A683C = {
 			isa = PBXGroup;
 			children = (
@@ -368,6 +385,7 @@
 				59CB8AD91B19B99F001A683C /* AppDelegate.m */,
 				59CB8B1D1B19C902001A683C /* TV Shows */,
 				59CB8AFD1B19BA9F001A683C /* Movies */,
+				594F04771B2B44410074AB44 /* CustomActionSheet */,
 				59CB8B2A1B19C902001A683C /* TVImages */,
 				59CB8AE11B19B99F001A683C /* Main.storyboard */,
 				59CB8B021B19BA9F001A683C /* LaunchScreen.xib */,
@@ -808,10 +826,12 @@
 				59CB8B0D1B19BA9F001A683C /* AddViewController.m in Sources */,
 				59CB8ADA1B19B99F001A683C /* AppDelegate.m in Sources */,
 				59CB8B891B19C902001A683C /* TableViewCell.m in Sources */,
+				594F047C1B2B44410074AB44 /* ILTranslucentView.m in Sources */,
 				59CB8B8A1B19C902001A683C /* topView2.m in Sources */,
 				59CB8B171B19BA9F001A683C /* topView.m in Sources */,
 				59CB8AD71B19B99F001A683C /* main.m in Sources */,
 				59CB8B1B1B19BB7B001A683C /* TableViewController.m in Sources */,
+				594F047D1B2B44410074AB44 /* UICustomActionSheet.m in Sources */,
 				59CB8B8D1B19C902001A683C /* TVShow.m in Sources */,
 				59CB8B871B19C902001A683C /* DetailViewController.m in Sources */,
 			);

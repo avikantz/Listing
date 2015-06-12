@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "DetailViewController.h"
+#import "UICustomActionSheet.h"
 
-@interface ShowsTableViewController : UITableViewController <UIScrollViewDelegate, UIActionSheetDelegate>
+@interface ShowsTableViewController : UITableViewController <UIScrollViewDelegate, UIActionSheetDelegate, UICustomActionSheetDelegate>
 
 typedef NS_ENUM(NSInteger, SortOrder) {
 	SortOrder_RANKING = 0,
