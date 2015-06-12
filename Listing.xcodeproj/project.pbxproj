@@ -318,6 +318,11 @@
 		59CB8B861B19C902001A683C /* White Collar.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "White Collar.jpg"; sourceTree = "<group>"; };
 		59CD31A51B1ED360007B4594 /* Angel.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Angel.jpg; sourceTree = "<group>"; };
 		59CD31A61B1ED360007B4594 /* Mr Robot.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Mr Robot.jpg"; sourceTree = "<group>"; };
+		59DB700C1B2956190014C7FD /* OratorStd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = OratorStd.otf; path = Movies/OratorStd.otf; sourceTree = "<group>"; };
+		59DB700D1B2957140014C7FD /* LeagueGothic-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LeagueGothic-Regular.otf"; path = "Movies/LeagueGothic-Regular.otf"; sourceTree = "<group>"; };
+		59DB700E1B2957140014C7FD /* Napoleodoni-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Napoleodoni-Bold.ttf"; path = "Movies/Napoleodoni-Bold.ttf"; sourceTree = "<group>"; };
+		59DB700F1B2957140014C7FD /* Supernatural_Knight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Supernatural_Knight.ttf; path = Movies/Supernatural_Knight.ttf; sourceTree = "<group>"; };
+		59DB70101B2957140014C7FD /* vibrocentric bd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "vibrocentric bd.ttf"; path = "Movies/vibrocentric bd.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -378,6 +383,11 @@
 				598A2F5F1B1A323800E50202 /* TVList.json */,
 				59CB8B271B19C902001A683C /* TVIcon.png */,
 				59CB8B001B19BA9F001A683C /* DJB A Bit of Flaire.ttf */,
+				59DB700C1B2956190014C7FD /* OratorStd.otf */,
+				59DB700D1B2957140014C7FD /* LeagueGothic-Regular.otf */,
+				59DB700E1B2957140014C7FD /* Napoleodoni-Bold.ttf */,
+				59DB700F1B2957140014C7FD /* Supernatural_Knight.ttf */,
+				59DB70101B2957140014C7FD /* vibrocentric bd.ttf */,
 				59CB8B011B19BA9F001A683C /* EtelkaNarrowTextPro.otf */,
 				59CB8B031B19BA9F001A683C /* MovieIcon.png */,
 				59CB8B041B19BA9F001A683C /* MoviesArray.json */,

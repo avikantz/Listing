@@ -39,28 +39,28 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="TO_BE_DOWNLOADED" translatesAutoresizingMaskIntoConstraints="NO" id="RtE-7X-YBq">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.79999999999999982" contentMode="center" image="TO_BE_DOWNLOADED" translatesAutoresizingMaskIntoConstraints="NO" id="RtE-7X-YBq">
                     <rect key="frame" x="242" y="445" width="12" height="12"/>
                 </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="TO_BE_ENCODED" translatesAutoresizingMaskIntoConstraints="NO" id="wzs-0I-8mR">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.79999999999999982" contentMode="center" image="TO_BE_ENCODED" translatesAutoresizingMaskIntoConstraints="NO" id="wzs-0I-8mR">
                     <rect key="frame" x="242" y="425" width="12" height="12"/>
                 </imageView>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="CURRENTLY_FOLLOWING" translatesAutoresizingMaskIntoConstraints="NO" id="u8v-Ik-TDi">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.79999999999999982" contentMode="center" image="CURRENTLY_FOLLOWING" translatesAutoresizingMaskIntoConstraints="NO" id="u8v-Ik-TDi">
                     <rect key="frame" x="242" y="405" width="12" height="12"/>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To Be Downloaded" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXC-QY-dEN">
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.79999999999999982" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To Be Downloaded" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HXC-QY-dEN">
                     <rect key="frame" x="262" y="445" width="98" height="13"/>
                     <fontDescription key="fontDescription" name="EtelkaNarrowTextPro" family="Etelka Text Pro" pointSize="14"/>
                     <color key="textColor" red="0.32941176470588235" green="0.82408720262580559" blue="0.82327167317976135" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To Be Encoded" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOf-aM-Uv3">
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.79999999999999982" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To Be Encoded" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOf-aM-Uv3">
                     <rect key="frame" x="262" y="425" width="77" height="13"/>
                     <fontDescription key="fontDescription" name="EtelkaNarrowTextPro" family="Etelka Text Pro" pointSize="14"/>
                     <color key="textColor" red="0.93307473776223782" green="0.52527391419854663" blue="0.082381543089263681" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Currently Following" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DeU-Il-u2Q">
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.79999999999999982" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Currently Following" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DeU-Il-u2Q">
                     <rect key="frame" x="262" y="405" width="99" height="13"/>
                     <fontDescription key="fontDescription" name="EtelkaNarrowTextPro" family="Etelka Text Pro" pointSize="14"/>
                     <color key="textColor" red="0.32941176470588235" green="0.82408720262580559" blue="0.24705882352941178" alpha="1" colorSpace="calibratedRGB"/>
@@ -72,15 +72,15 @@
                     <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(701.83 GB)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oil-sr-CvF">
-                    <rect key="frame" x="366" y="581" width="77" height="16"/>
-                    <fontDescription key="fontDescription" name="EtelkaNarrowTextPro" family="Etelka Text Pro" pointSize="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(701.83 GB)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oil-sr-CvF">
+                    <rect key="frame" x="366" y="580" width="81" height="17"/>
+                    <fontDescription key="fontDescription" name="EtelkaNarrowTextPro" family="Etelka Text Pro" pointSize="18"/>
                     <color key="textColor" red="0.40000000600000002" green="1" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7777 Episodes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nCo-1r-77S">
-                    <rect key="frame" x="144" y="581" width="95" height="16"/>
-                    <fontDescription key="fontDescription" name="EtelkaNarrowTextPro" family="Etelka Text Pro" pointSize="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7890 Episodes" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nCo-1r-77S">
+                    <rect key="frame" x="139" y="580" width="100" height="17"/>
+                    <fontDescription key="fontDescription" name="EtelkaNarrowTextPro" family="Etelka Text Pro" pointSize="18"/>
                     <color key="textColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.047058823530000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>

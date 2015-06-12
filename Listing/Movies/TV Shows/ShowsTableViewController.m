@@ -21,12 +21,13 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	NSMutableArray *FullList;
 	NSMutableArray *SearchResults;
 	NSMutableArray *ShowList;
-	BOOL isAlphabetical;
 	
 	CGFloat previousScrollViewYOffset;
 	
 	NSInteger episodeCount;
 	CGFloat sizeCount;
+	
+	SortOrder sortOrder;
 }
 
 @end
@@ -41,12 +42,11 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	[self.tabBarController.tabBar setBarTintColor:UIColorFromRGBWithAlpha(0x000000, 0.5)];
 	[self.tabBarController.tabBar setTintColor:UIColorFromRGBWithAlpha(0x66ffcc, 1)];
 	
-	isAlphabetical = NO;
-	
+	sortOrder = SortOrder_RANKING;
 	
 	// Adding the bar button items...
 	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: _EditButton, _tbdButton, nil];
-	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:_AlphabeticalButton, _followingButton, nil];
+	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects: _sortButton, _followingButton, nil];
 	self.navigationController.toolbarHidden = YES;
 	
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:self action:nil];
@@ -54,8 +54,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	[self.navigationItem setBackBarButtonItem:backButton];
 	[self.EditButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:20.0f]} forState:UIControlStateNormal];
 	[self.EditButton setTitle:@"EDIT"];
-	[self.AlphabeticalButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:20.0f]} forState:UIControlStateNormal];
-	[self.AlphabeticalButton setTitle:@"A..Z"];
+	[self.sortButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:20.0f]} forState:UIControlStateNormal];
+	[self.sortButton setTitle:@"SORT"];
 	
 	
 	[self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:20.0f]}];
@@ -111,15 +111,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 		[ShowList addObject:show];
 	}
 	
-	if (!isAlphabetical) {
-		
-	}
-	else {
-		NSArray *sortedArray = [ShowList sortedArrayUsingComparator:^(TVShow *a, TVShow *b) {
-			return [a.Title caseInsensitiveCompare:b.Title];
-		}];
-		ShowList = [[NSMutableArray alloc] initWithArray:sortedArray];
-	}
+	[self sortShowListWithSortOrder:sortOrder];
 	
 	// Add the topView 'XIB' with the number of shows and images...
 	topV = [[[NSBundle mainBundle] loadNibNamed:@"topView2" owner:self options:nil] objectAtIndex:0];
@@ -134,7 +126,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 
 -(void)viewWillDisappear:(BOOL)animated {
 	[self.EditButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:20.0f]} forState:UIControlStateNormal];
-	[self.AlphabeticalButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:20.0f]} forState:UIControlStateNormal];
+	[self.sortButton setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:20.0f]} forState:UIControlStateNormal];
 	[self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: UIColorFromRGBWithAlpha(0x66ffcc, 1), NSFontAttributeName: [UIFont fontWithName:@"EtelkaNarrowTextPro" size:(20.f)]}];
 }
 
@@ -257,19 +249,21 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 #pragma mark - Sorts and Editing Action
 
 - (IBAction)followingAction:(id)sender {
-	ShowList = [[NSMutableArray alloc] init];
-	for(int i=0; i<[FullList count]; ++i){
-		TVShow *show = [TVShow new];
-		show.Title = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"Title"]];
-		show.Detail = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Detail"]];
-		if ([show.Detail containsString:@"CURRENTLY_FOLLOWING"])
-			[ShowList addObject:show];
+	NSInteger direction;
+	if (sortOrder == SortOrder_CURRENTLY_FOLLOWING) {
+		direction = 1;
+		sortOrder = SortOrder_RANKING;
 	}
+	else {
+		sortOrder = SortOrder_CURRENTLY_FOLLOWING;
+		direction = -1;
+	}
+	[self sortShowListWithSortOrder:sortOrder];
 	[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-		self.tableView.transform = CGAffineTransformMakeTranslation(0, -self.view.frame.size.height);
+		self.tableView.transform = CGAffineTransformMakeTranslation(0, direction*self.view.frame.size.height);
 		self.tableView.alpha = 0.5f;
 	} completion:^(BOOL finished) {
-		self.tableView.transform = CGAffineTransformMakeTranslation(0, self.view.frame.size.height);
+		self.tableView.transform = CGAffineTransformMakeTranslation(0, -direction*self.view.frame.size.height);
 		[self.tableView reloadData];
 		[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
 			self.tableView.transform = CGAffineTransformIdentity;
@@ -279,19 +273,21 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 }
 
 - (IBAction)tbdAction:(id)sender {
-	ShowList = [[NSMutableArray alloc] init];
-	for(int i=0; i<[FullList count]; ++i){
-		TVShow *show = [TVShow new];
-		show.Title = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"Title"]];
-		show.Detail = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Detail"]];
-		if ([show.Detail containsString:@"TO_BE_DOWNLOADED"])
-			[ShowList addObject:show];
+	NSInteger direction;
+	if (sortOrder == SortOrder_TO_BE_DOWNLOADED) {
+		direction = 1;
+		sortOrder = SortOrder_RANKING;
 	}
+	else {
+		sortOrder = SortOrder_TO_BE_DOWNLOADED;
+		direction = -1;
+	}
+	[self sortShowListWithSortOrder:sortOrder];
 	[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-		self.tableView.transform = CGAffineTransformMakeTranslation(0, self.view.frame.size.height);
+		self.tableView.transform = CGAffineTransformMakeTranslation(0, direction*self.view.frame.size.height);
 		self.tableView.alpha = 0.5f;
 	} completion:^(BOOL finished) {
-		self.tableView.transform = CGAffineTransformMakeTranslation(0, -self.view.frame.size.height);
+		self.tableView.transform = CGAffineTransformMakeTranslation(0, -direction*self.view.frame.size.height);
 		[self.tableView reloadData];
 		[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
 			self.tableView.transform = CGAffineTransformIdentity;
@@ -300,56 +296,142 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	}];
 }
 
-- (IBAction)AlphabeticalAction:(id)sender {
-	if (isAlphabetical) {
-		[_AlphabeticalButton setTitle:@"A...Z"];
-		self.EditButton.enabled = YES;
-		ShowList = [[NSMutableArray alloc] init];
-		for(int i=0; i<[FullList count]; ++i){
-			TVShow *show = [TVShow new];
-			show.Title = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"Title"]];
-			show.Detail = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Detail"]];
-			[ShowList addObject:show];
-		}
-		[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-			self.tableView.transform = CGAffineTransformMakeTranslation(-self.view.frame.size.width, 0);
-			self.tableView.alpha = 0.5f;
-		} completion:^(BOOL finished) {
-			self.tableView.transform = CGAffineTransformMakeTranslation(self.view.frame.size.width, 0);
-			[self.tableView reloadData];
-			[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-				self.tableView.transform = CGAffineTransformIdentity;
-				self.tableView.alpha = 1.f;
-			} completion:nil];
-		}];
+#pragma mark - Sort Thingies
+
+- (IBAction)sortAction:(id)sender {
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Sort" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Rank Wise", @"Alphabetically", @"Currently Following", @"To Be Downloaded", @"To Be Encoded", @"Episode Count", @"Size", nil];
+	[actionSheet setDelegate:self];
+	[actionSheet showInView:self.view];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex {
+	[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+		self.tableView.transform = CGAffineTransformMakeTranslation(-self.view.frame.size.width, 0);
+		self.tableView.alpha = 0.2f;
+	} completion:^(BOOL finished) {
+		self.tableView.transform = CGAffineTransformMakeTranslation(self.view.frame.size.width, 0);
+		[self.tableView reloadData];
+		[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+			self.tableView.transform = CGAffineTransformIdentity;
+			self.tableView.alpha = 1.f;
+		} completion:nil];
+	}];
+}
+
+-(void)actionSheetCancel:(UIActionSheet *)actionSheet {
+	
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	
+	NSString *title = [actionSheet buttonTitleAtIndex:buttonIndex];
+	if ([title isEqualToString:@"Rank Wise"])
+		sortOrder = SortOrder_RANKING;
+	else if ([title isEqualToString:@"Alphabetically"])
+		sortOrder = SortOrder_ALPHABETICAL;
+	else if ([title isEqualToString:@"Currently Following"])
+		sortOrder = SortOrder_CURRENTLY_FOLLOWING;
+	else if ([title isEqualToString:@"To Be Downloaded"])
+		sortOrder = SortOrder_TO_BE_DOWNLOADED;
+	else if ([title isEqualToString:@"To Be Encoded"])
+		sortOrder = SortOrder_TO_BE_ENCODED;
+	else if ([title isEqualToString:@"Episode Count"])
+		sortOrder = SortOrder_EPISODE_COUNT;
+	else if ([title isEqualToString:@"Size"])
+		sortOrder = SortOrder_SIZE;
+	
+	[self sortShowListWithSortOrder:sortOrder];
+	
+	
+}
+
+-(void)sortShowListWithSortOrder: (SortOrder)sortorder {
+	
+	ShowList = [[NSMutableArray alloc] init];
+	for(int i=0; i<[FullList count]; ++i){
+		TVShow *show = [TVShow new];
+		show.Title = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"Title"]];
+		show.Detail = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Detail"]];
+		[ShowList addObject:show];
 	}
-	else {
-		[_AlphabeticalButton setTitle:[NSString stringWithFormat:@"1...9"]];
-		self.EditButton.enabled = NO;
-		ShowList = [[NSMutableArray alloc] init];
-		for(int i=0; i<[FullList count]; ++i){
-			TVShow *show = [TVShow new];
-			show.Title = [NSString stringWithFormat:@"%@", [[FullList objectAtIndex:i] objectForKey:@"Title"]];
-			show.Detail = [NSString stringWithFormat:@"%@",[[FullList objectAtIndex:i] objectForKey:@"Detail"]];
-			[ShowList addObject:show];
+	
+	switch (sortorder) {
+		case SortOrder_RANKING:
+			sortOrder = SortOrder_RANKING;
+			break;
+			
+		case SortOrder_ALPHABETICAL: {
+			NSArray *sortedArray = [ShowList sortedArrayUsingComparator:^(TVShow *a, TVShow *b) {
+				return [a.Title caseInsensitiveCompare:b.Title];
+			}];
+			ShowList = [[NSMutableArray alloc] initWithArray:sortedArray];
+			sortOrder = SortOrder_ALPHABETICAL;
 		}
-		NSArray *sortedArray = [ShowList sortedArrayUsingComparator:^(TVShow *a, TVShow *b) {
-			return [a.Title caseInsensitiveCompare:b.Title];
-		}];
-		ShowList = [[NSMutableArray alloc] initWithArray:sortedArray];
-		[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-			self.tableView.transform = CGAffineTransformMakeTranslation(self.view.frame.size.width, 0);
-			self.tableView.alpha = 0.5f;
-		} completion:^(BOOL finished) {
-			self.tableView.transform = CGAffineTransformMakeTranslation(-self.view.frame.size.width, 0);
-			[self.tableView reloadData];
-			[UIView animateWithDuration:0.15 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-				self.tableView.transform = CGAffineTransformIdentity;
-				self.tableView.alpha = 1.f;
-			} completion:nil];
-		}];
+			break;
+			
+		case SortOrder_CURRENTLY_FOLLOWING: {
+			NSMutableArray *sortedArray = [[NSMutableArray alloc] init];
+			for (TVShow *show in ShowList) {
+				if ([show.Detail containsString:@"CURRENTLY_FOLLOWING"])
+					[sortedArray addObject:show];
+			}
+			ShowList = sortedArray;
+			sortOrder = SortOrder_CURRENTLY_FOLLOWING;
+		}
+			break;
+			
+		case SortOrder_TO_BE_DOWNLOADED: {
+			NSMutableArray *sortedArray = [[NSMutableArray alloc] init];
+			for (TVShow *show in ShowList) {
+				if ([show.Detail containsString:@"TO_BE_DOWNLOADED"])
+					[sortedArray addObject:show];
+			}
+			ShowList = sortedArray;
+			sortOrder = SortOrder_TO_BE_DOWNLOADED;
+		}
+			break;
+			
+		case SortOrder_TO_BE_ENCODED: {
+			NSMutableArray *sortedArray = [[NSMutableArray alloc] init];
+			for (TVShow *show in ShowList) {
+				if ([show.Detail containsString:@"TO_BE_ENCODED"])
+					[sortedArray addObject:show];
+			}
+			ShowList = sortedArray;
+			sortOrder = SortOrder_TO_BE_ENCODED;
+		}
+			break;
+			
+		case SortOrder_EPISODE_COUNT: {
+			NSArray *sortedArray = [ShowList sortedArrayUsingComparator:^(TVShow *a, TVShow *b) {
+				if ([self numberOfEpisodesInString:a.Detail] > [self numberOfEpisodesInString:b.Detail])
+					return NSOrderedDescending;
+				else if ([self numberOfEpisodesInString:a.Detail] < [self numberOfEpisodesInString:b.Detail])
+					return NSOrderedAscending;
+				return NSOrderedSame;
+			}];
+			ShowList = [[NSMutableArray alloc] initWithArray:sortedArray];
+			sortOrder = SortOrder_EPISODE_COUNT;
+		}
+			break;
+			
+		case SortOrder_SIZE: {
+			NSArray *sortedArray = [ShowList sortedArrayUsingComparator:^(TVShow *a, TVShow *b) {
+				if ([self sizeOfShowFromString:a.Detail] > [self sizeOfShowFromString:b.Detail])
+					return NSOrderedDescending;
+				else if ([self sizeOfShowFromString:a.Detail] < [self sizeOfShowFromString:b.Detail])
+					return NSOrderedAscending;
+				return NSOrderedSame;
+			}];
+			ShowList = [[NSMutableArray alloc] initWithArray:sortedArray];
+			sortOrder = SortOrder_SIZE;
+		}
+			break;
+			
+		default:
+			sortOrder = SortOrder_RANKING;
+			break;
 	}
-	isAlphabetical = !isAlphabetical;
 }
 
 /*
@@ -450,10 +532,10 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 }
 
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	 if (self.searchDisplayController.isActive || isAlphabetical){
-		 return NO;
+	 if (!self.searchDisplayController.isActive && sortOrder == SortOrder_RANKING){
+		 return YES;
 	 }
-	 return YES;
+	 return NO;
  }
 
  - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -493,6 +575,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:a]
 	nooeString = [nooeString stringByReplacingOccurrencesOfString:@", " withString:@""];
 	nooeString = [nooeString stringByReplacingOccurrencesOfString:@"n" withString:@""];
 	nooeString = [nooeString stringByReplacingOccurrencesOfString:@"s" withString:@""];
+	nooeString = [nooeString stringByReplacingOccurrencesOfString:@"e" withString:@""];
 	nooe = [nooeString integerValue];
 	return nooe;
 }

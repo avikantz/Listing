@@ -29,7 +29,12 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>DJB A Bit of Flaire.ttf</string>
+		<string>LeagueGothic-Regular.otf</string>
 		<string>Tall Films Expanded.ttf</string>
+		<string>Napoleodoni-Bold.ttf</string>
+		<string>OratorStd.otf</string>
+		<string>Supernatural_Knight.ttf</string>
+		<string>vibrocentric bd.ttf</string>
 		<string>EtelkaNarrowTextPro.otf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
